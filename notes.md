@@ -1,0 +1,16 @@
+## Outline
+
+- Select username
+- Join --> Select seats, show seats, seat colors
+- pull + cache asset data
+- Drag cards
+- Group cards
+- flip cards
+- shuffle cards
+- Hand per player
+- shared text field for all game.players, editable only by host
+
+
+- touch?
+
+render everything

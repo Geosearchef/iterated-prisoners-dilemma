@@ -1,0 +1,49 @@
+@charset "UTF-8";
+
+html, body {
+    height: 100%;
+}
+
+html {
+    display: table;
+    margin: auto;
+}
+
+body {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    margin:0;
+    font-family: Arial, sans-serif;
+}
+
+input,
+button {
+    font-family: Arial, sans-serif;
+    padding: 5pt 8pt;
+    background: lightgray;
+    color: black;
+    border: 1pt solid white;
+    border-radius: 3pt;
+    margin: 1pt;
+    transition: background-color, color;
+    -webkit-transition-duration: 0.2s; /* Safari */
+    transition-duration: 0.2s;
+    text-align: center;
+}
+
+input:hover,
+button:hover {
+    background: #949494;
+    color: white;
+}
+
+input {
+    margin-top: 3pt;
+    margin-bottom: 8pt;
+}
+
+#table-canvas {
+    width: 100%;
+    height: 100%;
+}
