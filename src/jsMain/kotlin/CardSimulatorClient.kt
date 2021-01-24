@@ -12,10 +12,9 @@ fun main() {
         val username = URLSearchParams(window.location.search).get("username")
         if(username != null && username.isNotBlank()) {
             (document.getElementById("testLabel") as HTMLDivElement).textContent = "My username is $username"
+            WebsocketClient.init()
         } else {
             window.location.href = "/"
         }
-
-        WebsocketClient.init()
     }
 }

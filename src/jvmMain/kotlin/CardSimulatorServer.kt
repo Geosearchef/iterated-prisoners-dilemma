@@ -10,9 +10,8 @@ fun main() {
     log.info("Ports used: Static: ${CardSimulatorOptions.STATIC_PORT}, API: ${CardSimulatorOptions.API_PORT}, WebSocket: ${CardSimulatorOptions.WEBSOCKET_PORT}")
 
     WebServer.init()
-
-    Api.init()
     WebsocketServer.init()
+    Api.init()
 
     // just serve /static
     // script at /static/output.js
