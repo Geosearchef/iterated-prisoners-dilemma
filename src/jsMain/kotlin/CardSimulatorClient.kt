@@ -2,27 +2,63 @@ import api.ApiAccessor
 import game.Game
 import kotlinx.browser.document
 import kotlinx.browser.window
-import org.w3c.dom.HTMLDivElement
-import org.w3c.dom.events.Event
+import org.w3c.dom.HTMLCanvasElement
 import org.w3c.dom.url.URLSearchParams
+import rendering.Rendering
+import util.Util
 import websocket.WebsocketClient
 
-fun init(event: Event) {
-    console.log("Loading card simulator...")
+object CardSimulatorClient {
 
-    Game.username = URLSearchParams(window.location.search).get("username") ?: ""
-    if(Game.username.isNotBlank()) {
-        (document.getElementById("testLabel") as HTMLDivElement).textContent = "My username is ${Game.username}"
-    } else {
-        window.location.href = "/"
-        return
+    val canvas = document.getElementById("table-canvas") as? HTMLCanvasElement ?: throw RuntimeException("Table canvas not found")
+
+    fun init() {
+        console.log("Loading card simulator...")
+
+        loadUsername()
+
+        WebsocketClient.init()
+        ApiAccessor.init()
+        Game.init()
+
+        window.requestAnimationFrame(CardSimulatorClient::animationFrame)
     }
 
-    WebsocketClient.init()
-    ApiAccessor.init()
-    Game.init()
+    private fun loadUsername() {
+        username = URLSearchParams(window.location.search).get("username") ?: ""
+        if (username.isBlank()) {
+            window.location.href = "/"
+        }
+    }
+
+
+    var renderRequested = true
+    var continousRendering = false
+
+    fun requestRender() {
+        renderRequested = true
+    }
+
+    private var lastFrame = Util.currentTimeMillis()
+    fun animationFrame(t: Double) {
+        val deltaMillis = Util.currentTimeMillis() - lastFrame;
+        lastFrame += deltaMillis;
+        val delta = deltaMillis / 1000.0;
+
+        Rendering.render(delta, canvas)
+
+        window.requestAnimationFrame(CardSimulatorClient::animationFrame)
+    }
+
+
+    private var _username: String? = null
+    var username: String
+        get() = _username ?: ""
+        set(value) {
+            _username = value
+        }
 }
 
 fun main() {
-    window.onload = { init(it) }
+    window.onload = { CardSimulatorClient.init() }
 }

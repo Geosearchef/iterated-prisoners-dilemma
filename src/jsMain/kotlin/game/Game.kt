@@ -15,12 +15,4 @@ object Game {
     fun init() {
 
     }
-
-
-    private var _username: String? = null
-    var username: String
-        get() = _username ?: ""
-        set(value) {
-            _username = value
-        }
 }
