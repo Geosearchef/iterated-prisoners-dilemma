@@ -1,10 +1,13 @@
 package util.math
 
-import math.Vector
-
 class Rectangle(var x: Double, var y: Double, var width: Double, var height: Double) {
 
-    val pos: Vector get() = Vector(x, y)
+    var pos: Vector
+        get() = Vector(x, y)
+        set(value) {
+            x = value.x
+            y = value.y
+        }
     constructor(pos: Vector, width: Double, height: Double) : this(pos.x, pos.y, width, height)
 
     operator fun contains(v: Vector) : Boolean {

@@ -1,4 +1,6 @@
-import org.w3c.dom.events.Event
+package framework.rendering
+
+import CardSimulatorClient
 
 class Image(val imageSrc: String) {
 
@@ -9,11 +11,11 @@ class Image(val imageSrc: String) {
 
     init {
         wrappedImage.src = imageSrc
-        wrappedImage.onload = this::onImageLoaded
+        wrappedImage.onload = { this.onImageLoaded() }
     }
 
-    fun onImageLoaded(event: Event) {
-        console.log("Image loaded: $imageSrc")
+    fun onImageLoaded() {
+        console.log("framework.rendering.Image loaded: $imageSrc")
         loaded = true
 
         CardSimulatorClient.requestRender()

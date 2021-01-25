@@ -1,9 +1,9 @@
-package rendering
+package framework.rendering
 
 import CardSimulatorClient
-import math.Vector
 import org.w3c.dom.*
 import util.math.Rectangle
+import util.math.Vector
 import kotlin.math.PI
 
 fun HTMLCanvasElement.resizeCanvas() {

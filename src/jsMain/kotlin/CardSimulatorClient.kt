@@ -1,25 +1,33 @@
 import api.ApiAccessor
+import framework.rendering.GenericRendering
+import framework.scene.Scene
+import framework.scene.SceneManager
 import game.Game
+import input.Input
 import kotlinx.browser.document
 import kotlinx.browser.window
 import org.w3c.dom.HTMLCanvasElement
 import org.w3c.dom.url.URLSearchParams
 import rendering.Rendering
+import update.Update
 import util.Util
 import websocket.WebsocketClient
 
+/**
+ * Cross framework.scene main controller
+ */
 object CardSimulatorClient {
+    // needs to be loaded automatically
+    object DefaultScene : Scene(Input, Update, Rendering, CardsUIManager, initFunction = { Game.init() })
 
     val canvas = document.getElementById("table-canvas") as? HTMLCanvasElement ?: throw RuntimeException("Table canvas not found")
 
     fun init() {
-        console.log("Loading card simulator...")
-
         loadUsername()
 
         WebsocketClient.init()
         ApiAccessor.init()
-        Game.init()
+        SceneManager.init(DefaultScene)
 
         window.requestAnimationFrame(CardSimulatorClient::animationFrame)
     }
@@ -33,7 +41,7 @@ object CardSimulatorClient {
 
 
     var renderRequested = true
-    var continousRendering = false
+    var continousRendering = true // TODO: sure?
 
     fun requestRender() {
         renderRequested = true
@@ -45,7 +53,8 @@ object CardSimulatorClient {
         lastFrame += deltaMillis;
         val delta = deltaMillis / 1000.0;
 
-        Rendering.render(delta, canvas)
+        SceneManager.currentScene.update.update(delta)
+        GenericRendering.render(delta, canvas)
 
         window.requestAnimationFrame(CardSimulatorClient::animationFrame)
     }
@@ -57,8 +66,4 @@ object CardSimulatorClient {
         set(value) {
             _username = value
         }
-}
-
-fun main() {
-    window.onload = { CardSimulatorClient.init() }
 }

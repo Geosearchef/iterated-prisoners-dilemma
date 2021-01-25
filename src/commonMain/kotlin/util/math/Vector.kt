@@ -1,8 +1,10 @@
-package math
+package util.math
 
 import kotlinx.serialization.Serializable
 import kotlin.math.pow
 import kotlin.math.sqrt
+
+operator fun Double.times(v: Vector) = v * this
 
 @Serializable
 data class Vector(var x: Double = 0.0, var y: Double = 0.0) {
