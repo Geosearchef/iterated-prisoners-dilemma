@@ -13,3 +13,12 @@ sealed class Message() {
 
 @Serializable
 data class ClientLoginMessage(val username: String) : Message()
+
+@Serializable
+data class ServerLoginMessage(val todo: Int) : Message()
+
+@Serializable
+data class ClientEchoReplyMessage(val serverTimestamp: Long) : Message()
+
+@Serializable
+data class ServerEchoRequestMessage(val serverTimestamp: Long) : Message()

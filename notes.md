@@ -3,6 +3,8 @@
 - Select username
 - Join --> Select seats, show seats, seat colors
 - pull + cache asset data
+
+- mouse cursor
 - Drag cards
 - Group cards
 - flip cards

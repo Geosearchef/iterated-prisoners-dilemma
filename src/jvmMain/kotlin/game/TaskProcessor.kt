@@ -2,7 +2,6 @@ package game
 
 import game.players.Player
 import util.Util.logger
-import websocket.WebsocketServer
 import java.util.*
 
 object TaskProcessor {
@@ -31,7 +30,7 @@ object TaskProcessor {
             try { Thread.sleep(5) } catch(e: InterruptedException) {}
         }
 
-        WebsocketServer.log.info("Terminating message processor")
+        log.info("Terminating message processor")
     }
 
     fun addTask(runnable: Runnable) = addTask(Task(null, runnable))
