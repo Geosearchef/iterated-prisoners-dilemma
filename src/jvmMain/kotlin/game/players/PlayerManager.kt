@@ -37,11 +37,14 @@ object PlayerManager {
     }
 
     fun onSessionDisconnected(session: Session) {
+        // TODO: query this as task
         synchronized(players) {
             players.find { it.session == session }?.let {
                 log.info("${it.username}(${session.getRemoteHostAddress()}) disconnected")
                 removePlayer(it)
             }
         }
+
+        // TODO: do sth
     }
 }

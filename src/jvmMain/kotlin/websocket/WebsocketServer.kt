@@ -38,7 +38,7 @@ object WebsocketServer {
         synchronized(sessions) {
             sessions.add(session)
         }
-        session.idleTimeout = SOCKET_IDLE_TIMEOUT.toMillis()
+//        session.idleTimeout = SOCKET_IDLE_TIMEOUT.toMillis()
     }
 
     @OnWebSocketClose
@@ -104,14 +104,20 @@ object WebsocketServer {
         val executor = Executors.newScheduledThreadPool(1)
         val task = executor.scheduleAtFixedRate(this::run, 5, 2, TimeUnit.SECONDS)
         fun run() {
-            sessions.forEach { send(it, ServerEchoRequestMessage(System.currentTimeMillis())) }
+            synchronized(sessions) {
+                try {
+                    ArrayList(sessions).forEach { send(it, ServerEchoRequestMessage(System.currentTimeMillis())) }
 
-            // time out sessions
-            ArrayList(sessions).filter {
-                PlayerManager.getPlayerBySession(it)?.lastEchoReply?.plus(SOCKET_IDLE_TIMEOUT)?.isBefore(Instant.now()) ?: false
-            }.forEach {
-                println("Force disconnecting ${it.getRemoteHostAddress()}")
-                disconnect(it)
+                    // time out sessions
+                    ArrayList(sessions).filter {
+                        PlayerManager.getPlayerBySession(it)?.lastEchoReply?.plus(SOCKET_IDLE_TIMEOUT)?.isBefore(Instant.now()) ?: false
+                    }.forEach {
+                        log.warn("Force disconnecting ${it.getRemoteHostAddress()}")
+                        disconnect(it)
+                    }
+                } catch(e: Exception) {
+                    log.error("Error while monitoring sessions", e)
+                }
             }
         }
         fun stop() {
