@@ -1,7 +1,6 @@
 package input
 
 import framework.scene.SceneInput
-import game.Game
 import org.w3c.dom.events.KeyboardEvent
 import org.w3c.dom.events.MouseEvent
 import org.w3c.dom.events.WheelEvent
@@ -11,9 +10,7 @@ object Input : SceneInput() {
     var isButtonDown = false
 
     override fun onMouseMove(event: MouseEvent, isOnUI: Boolean) {
-        if (isButtonDown) {
-            Game.someGameObject.pos = mousePosition
-        }
+
     }
 
     override fun onMouseDown(event: MouseEvent, isOnUI: Boolean) {

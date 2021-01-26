@@ -70,12 +70,18 @@ input {
     /*cursor: pointer;*/
 }
 
-#players-overlay {
-    width: 150pt;
+#seats-overlay {
+    width: 130pt;
     height: 250pt;
     margin-right: 15pt;
     margin-top: 15pt;
-    background-color: rgba(255,127,0,0.7);
+    padding-top: 10pt;
+    background-color: rgba(230,230,230,0.7);
     right: 0;
     top: 0;
+    float: right;
+}
+
+#seats-list {
+    margin-top: 12pt;
 }

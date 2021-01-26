@@ -66,7 +66,7 @@ object WebsocketServer {
         if(message is ClientLoginMessage) {
             val success = PlayerManager.attemptLogin(message.username, session)
             if(success) {
-                send(session, ServerLoginMessage(0))
+                send(session, ServerLoginMessage(GameManager.gameInfo))
             } else {
                 session.close(StatusCode.PROTOCOL, "Username invalid or already taken")
                 return

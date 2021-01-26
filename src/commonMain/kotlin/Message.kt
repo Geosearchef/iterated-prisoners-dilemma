@@ -15,7 +15,7 @@ sealed class Message() {
 data class ClientLoginMessage(val username: String) : Message()
 
 @Serializable
-data class ServerLoginMessage(val todo: Int) : Message()
+data class ServerLoginMessage(val gameInfo: GameInfo) : Message()
 
 @Serializable
 data class ClientEchoReplyMessage(val serverTimestamp: Long) : Message()
