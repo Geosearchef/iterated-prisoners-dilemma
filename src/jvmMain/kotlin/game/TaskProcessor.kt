@@ -48,5 +48,9 @@ object TaskProcessor {
         }
     }
 
+    fun verifyTaskThread() {
+        check(Thread.currentThread() == workerThread)
+    }
+
     data class Task(val source: Any?, val runnable: Runnable)
 }

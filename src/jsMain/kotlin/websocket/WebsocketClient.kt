@@ -23,7 +23,6 @@ object WebsocketClient {
         val message = Message.fromJson(event.data.toString())
 
         if(message is ServerEchoRequestMessage) {
-            console.log("echo replying "+ message.serverTimestamp)
             send(ClientEchoReplyMessage(message.serverTimestamp))
             return
         }

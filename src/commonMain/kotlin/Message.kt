@@ -22,3 +22,11 @@ data class ClientEchoReplyMessage(val serverTimestamp: Long) : Message()
 
 @Serializable
 data class ServerEchoRequestMessage(val serverTimestamp: Long) : Message()
+
+@Serializable
+data class ClientJoinSeatMessage(val seatId: Int) : Message()
+
+@Serializable
+data class ServerPlayerJoinSeatMessage(val playerName: String, val seatId: Int) : Message()
+@Serializable
+data class ServerPlayerLeaveSeatMessage(val playerName: String, val seatId: Int) : Message()

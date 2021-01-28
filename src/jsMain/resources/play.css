@@ -53,6 +53,9 @@ input {
     margin-bottom: 8pt;
 }
 
+.seat-button {
+    width: 80pt;
+}
 
 
 #table-canvas {

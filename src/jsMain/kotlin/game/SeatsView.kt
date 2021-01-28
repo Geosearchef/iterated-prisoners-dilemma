@@ -15,8 +15,8 @@ object SeatsView {
     fun recreate() {
         seatsListDiv.clear()
 
-        Game.gameInfo.seats.forEach {
-            seatsListDiv.append(createSeatEntry(it.color,  it.id,null))
+        Game.gameInfo.seats.forEach { seat ->
+            seatsListDiv.append(createSeatEntry(seat.color,  seat.id, Game.playersBySeat[seat.id]))
         }
     }
 
@@ -28,9 +28,12 @@ object SeatsView {
             type = "button"
             value = playerName ?: "< Join >"
             style.backgroundColor = color
+            className = "seat-button"
             name = id.toString()
         }
         seatDiv.appendChild(seatButton)
+
+        seatButton.onclick = { Game.onJoinSeatRequest(id) }
 
         return seatDiv
     }
