@@ -7,7 +7,7 @@ fun main() {
     val log = LoggerFactory.getLogger("main")
 
     log.info("Starting cards server")
-    log.info("Ports used: Static: ${CardSimulatorOptions.STATIC_PORT}, API: ${CardSimulatorOptions.API_PORT}, WebSocket: ${CardSimulatorOptions.WEBSOCKET_PORT}")
+    log.info("Ports used: Static: ${IterPriOptions.STATIC_PORT}, API: ${IterPriOptions.API_PORT}, WebSocket: ${IterPriOptions.WEBSOCKET_PORT}")
 
     WebServer.init()
     WebsocketServer.init()

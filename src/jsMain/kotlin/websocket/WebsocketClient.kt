@@ -1,8 +1,8 @@
 package websocket
 
-import CardSimulatorOptions
 import ClientEchoReplyMessage
 import ClientLoginMessage
+import IterPriOptions
 import Message
 import ServerEchoRequestMessage
 import game.Game
@@ -38,11 +38,12 @@ object WebsocketClient {
     fun onSocketOpen() {
         console.log("Connected to websocket, logging in...")
         val username = URLSearchParams(window.location.search).get("username") // TODO: put into central location (game / state)
-        username?.let { send(ClientLoginMessage(username)) }
+        val authToken = URLSearchParams(window.location.search).get("authToken")
+        username?.let { authToken?.let { send(ClientLoginMessage(username, authToken)) } }
     }
 
     fun init() {
-        val websocketUrl = "ws://${window.location.hostname}:${window.location.port}${CardSimulatorOptions.WEBSOCKET_ROUTE}"
+        val websocketUrl = "ws://${window.location.hostname}:${window.location.port}${IterPriOptions.WEBSOCKET_ROUTE}"
         console.log("Connecting to web socket at $websocketUrl")
         socket = WebSocket(websocketUrl)
 

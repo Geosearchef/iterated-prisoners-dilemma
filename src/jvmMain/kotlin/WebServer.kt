@@ -11,7 +11,7 @@ object WebServer {
     fun init() {
         log.info("Serving static files from $STATIC_FILES_LOCATION")
         staticFiles.externalLocation(STATIC_FILES_LOCATION)
-        port(CardSimulatorOptions.STATIC_PORT)
+        port(IterPriOptions.STATIC_PORT)
     }
 
 }

@@ -83,7 +83,7 @@ kotlin {
 }
 
 application {
-    mainClassName = "CardSimulatorServerKt"
+    mainClassName = "IterPriServerKt"
 }
 
 tasks.getByName<KotlinWebpack>("jsBrowserProductionWebpack") {

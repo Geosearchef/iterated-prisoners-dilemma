@@ -1,15 +1,13 @@
 package game
 
-import ClientJoinSeatMessage
 import GameInfo
 import Message
+import PlayerListInfoMessage
 import SeatInfo
-import ServerPlayerJoinSeatMessage
-import ServerPlayerLeaveSeatMessage
+import game.GameManager.GameState.WAITING_FOR_PLAYERS
 import game.TaskProcessor.verifyTaskThread
 import game.players.Player
-import game.players.PlayerManager.broadcast
-import game.players.PlayerManager.players
+import game.players.PlayerManager
 import util.Util.logger
 
 object GameManager {
@@ -26,6 +24,14 @@ object GameManager {
         )
     )
 
+    enum class GameState {
+        WAITING_FOR_PLAYERS, ROUND_IN_PROGRESS, WAITING_FOR_ROUND
+    }
+
+    val gameState = WAITING_FOR_PLAYERS
+
+
+
     // single threaded
     fun init() {
 
@@ -35,9 +41,9 @@ object GameManager {
     fun onMessageReceived(msg: Message, player: Player) {
         TaskProcessor.addTask(player) {
             when (msg) {
-                is ClientJoinSeatMessage -> {
-                    playerJoinSeat(player, msg.seatId)
-                }
+//                is ClientJoinSeatMessage -> {
+//                    playerJoinSeat(player, msg.seatId)
+//                }
             }
         }
     }
@@ -45,35 +51,13 @@ object GameManager {
     fun onPlayerInitialConnect(connectingPlayer: Player) {
         verifyTaskThread()
 
-        players.forEach { player ->
-            player.seat?.let { seat ->
-                connectingPlayer.send(ServerPlayerJoinSeatMessage(player.username, seat))
-            }
-        }
+        PlayerManager.broadcast(PlayerListInfoMessage(PlayerManager.players.map { it.username }.toTypedArray()))
     }
 
-    fun playerJoinSeat(player: Player, seatId: Int) {
+    fun onPlayerDisconnect(player: Player) {
         verifyTaskThread()
 
-        if (gameInfo.seats.none { it.id == seatId }) {
-            return
-        }
-
-        playerLeaveSeat(player)
-
-        if (players.none { it.seat == seatId }) {
-            player.seat = seatId
-            broadcast(ServerPlayerJoinSeatMessage(player.username, seatId))
-        }
-    }
-
-    fun playerLeaveSeat(player: Player) {
-        verifyTaskThread()
-
-        player.seat?.let { seat ->
-            broadcast(ServerPlayerLeaveSeatMessage(player.username, seat))
-
-            player.seat = null
-        }
+        // TODO: remove from game, auto select answers
+        PlayerManager.broadcast(PlayerListInfoMessage(PlayerManager.players.map { it.username }.toTypedArray()))
     }
 }

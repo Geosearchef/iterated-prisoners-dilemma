@@ -53,16 +53,6 @@ input {
     margin-bottom: 8pt;
 }
 
-.seat-button {
-    width: 80pt;
-}
-
-
-#table-canvas {
-    width: 100%;
-    height: 100%;
-}
-
 .overlay {
     position: fixed;
     /*top: 0;*/
@@ -73,18 +63,19 @@ input {
     /*cursor: pointer;*/
 }
 
-#seats-overlay {
-    width: 130pt;
-    height: 250pt;
-    margin-right: 15pt;
-    margin-top: 15pt;
-    padding-top: 10pt;
-    background-color: rgba(230,230,230,0.7);
-    right: 0;
-    top: 0;
-    float: right;
+#player-list {
+    padding-top: 0pt;
+    padding-bottom: 10pt;
 }
 
-#seats-list {
-    margin-top: 12pt;
+#main-ui {
+    margin: auto;
+    width: 50%;
+    border: 3px solid blue;
+    padding: 10px;
+    background-color: rgba(230,230,230,0.7);
+}
+
+#main-ui * {
+    margin-bottom: 5pt
 }

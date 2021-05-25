@@ -1,8 +1,8 @@
 package websocket
 
-import CardSimulatorOptions
 import ClientEchoReplyMessage
 import ClientLoginMessage
+import IterPriOptions
 import Message
 import ServerEchoRequestMessage
 import ServerLoginMessage
@@ -64,7 +64,7 @@ object WebsocketServer {
         val message = Message.fromJson(json) // TODO: test crash
 
         if(message is ClientLoginMessage) {
-            val success = PlayerManager.attemptLogin(message.username, session)
+            val success = PlayerManager.attemptLogin(message.username, message.authToken, session)
             if(success) {
                 send(session, ServerLoginMessage(GameManager.gameInfo))
             } else {
@@ -127,7 +127,7 @@ object WebsocketServer {
     }
 
     fun init() {
-        webSocket(CardSimulatorOptions.WEBSOCKET_ROUTE, this)
+        webSocket(IterPriOptions.WEBSOCKET_ROUTE, this)
         KeepAliveThread.run()
     }
 

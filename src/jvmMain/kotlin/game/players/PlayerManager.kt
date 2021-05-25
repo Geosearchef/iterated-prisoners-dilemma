@@ -1,5 +1,6 @@
 package game.players
 
+import IterPriOptions
 import Message
 import game.GameManager
 import game.TaskProcessor
@@ -25,7 +26,7 @@ object PlayerManager {
         players.remove(player)
 
         TaskProcessor.addTask(player) {
-            GameManager.playerLeaveSeat(player)
+            GameManager.onPlayerDisconnect(player)
         }
     }
 
@@ -39,12 +40,18 @@ object PlayerManager {
 
     fun getPlayerBySession(session: Session): Player? = players.find { it.session == session }
 
-    fun attemptLogin(username: String, session: Session): Boolean {
+    fun attemptLogin(username: String, authToken: String, session: Session): Boolean {
         if(username.isBlank()) {
             log.info("${session.getRemoteHostAddress()} attempted to use blank username")
             return false
         }
-        if(players.none { it.username == username }) {
+
+        if(IterPriOptions.AUTH_ENABLED && Util.generateAuthCode(username) != authToken) {
+            log.info("${session.getRemoteHostAddress()} attempted to use invalid auth token")
+            return false
+        }
+
+        if(players.none { it.username.equals(username, ignoreCase = true) }) {
             log.info("${session.getRemoteHostAddress()} logged in as $username")
             TaskProcessor.addTask { addPlayer(Player(username, session)) }
             return true

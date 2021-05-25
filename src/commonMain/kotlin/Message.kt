@@ -12,7 +12,7 @@ sealed class Message() {
 }
 
 @Serializable
-data class ClientLoginMessage(val username: String) : Message()
+data class ClientLoginMessage(val username: String, val authToken: String) : Message()
 
 @Serializable
 data class ServerLoginMessage(val gameInfo: GameInfo) : Message()
@@ -24,9 +24,4 @@ data class ClientEchoReplyMessage(val serverTimestamp: Long) : Message()
 data class ServerEchoRequestMessage(val serverTimestamp: Long) : Message()
 
 @Serializable
-data class ClientJoinSeatMessage(val seatId: Int) : Message()
-
-@Serializable
-data class ServerPlayerJoinSeatMessage(val playerName: String, val seatId: Int) : Message()
-@Serializable
-data class ServerPlayerLeaveSeatMessage(val playerName: String, val seatId: Int) : Message()
+data class PlayerListInfoMessage(val players: Array<String>) : Message()

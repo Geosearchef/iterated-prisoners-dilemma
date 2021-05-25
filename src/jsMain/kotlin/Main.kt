@@ -1,9 +1,9 @@
 import kotlinx.browser.document
 
 fun main() {
-    console.log("Loading card simulator client")
+    console.log("Loading")
 
     document.addEventListener("DOMContentLoaded", {
-        CardSimulatorClient.init()
+        IterPriClient.init()
     })
 }
