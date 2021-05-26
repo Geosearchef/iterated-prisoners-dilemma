@@ -25,3 +25,15 @@ data class ServerEchoRequestMessage(val serverTimestamp: Long) : Message()
 
 @Serializable
 data class PlayerListInfoMessage(val players: Array<String>) : Message()
+
+@Serializable
+data class TimerInfoMessage(val timeLeft: Long) : Message()
+
+@Serializable
+data class OwnScoreInfoMessage(val score: Int) : Message()
+
+@Serializable
+data class AllScoresInfoMessage(val scores: Map<String, Int>) : Message()
+
+@Serializable
+data class RoundInfoMessage(val round: Int) : Message()

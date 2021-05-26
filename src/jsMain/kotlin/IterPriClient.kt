@@ -1,4 +1,5 @@
 import api.ApiAccessor
+import game.Game
 import kotlinx.browser.window
 import org.w3c.dom.url.URLSearchParams
 import websocket.WebsocketClient
@@ -12,6 +13,8 @@ object IterPriClient {
 
         WebsocketClient.init()
         ApiAccessor.init()
+
+        Game.init()
     }
 
     private fun loadUsername() {

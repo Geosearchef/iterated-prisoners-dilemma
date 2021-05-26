@@ -10,7 +10,7 @@
 
 <div id="main-ui" class="main-ui">
     <h4 id="timer-label">0:23</h4>
-    <h4 id="round-label">Opponent 1/X</h4>
+    <h4 id="round-label">Opponent ? / ?</h4>
     <h4 id="score-label" style="margin-bottom: 20pt">Score: 17</h4>
     <div id="waiting-ui" style="display: block">
         <h3 id="waiting-for-players-label">Waiting for players</h3>
@@ -19,7 +19,7 @@
         <p>Do not close this page after the game has started or you will be unable to reconnect!</p>
     </div>
     <div id="round-ui" style="display: none">
-        <h3>You got betrayed.</h3>
+        <h3>You got betrayed. (+0)</h3>
 
         <h3 style="margin-top: 10pt">What do you want to do?</h3>
 
@@ -35,6 +35,26 @@
             User1: 17<br>
             User1: 5<br>
         </p>
+    </div>
+
+    <div id="payoff-matrix">
+        <table>
+            <tr>
+                <td></td>
+                <td><strong>Cooperate</strong></td>
+                <td><strong>Betray</strong></td>
+            </tr>
+            <tr>
+                <td><strong>Cooperate</strong></td>
+                <td>+2 / +2</td>
+                <td>+0 / +3</td>
+            </tr>
+            <tr>
+                <td><strong>Betray</strong></td>
+                <td>+3 / +0</td>
+                <td>+1 / +1</td>
+            </tr>
+        </table>
     </div>
 </div>
 

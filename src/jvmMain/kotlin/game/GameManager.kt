@@ -4,11 +4,17 @@ import GameInfo
 import Message
 import PlayerListInfoMessage
 import SeatInfo
+import TimerInfoMessage
 import game.GameManager.GameState.WAITING_FOR_PLAYERS
 import game.TaskProcessor.verifyTaskThread
 import game.players.Player
 import game.players.PlayerManager
+import game.players.PlayerManager.broadcast
 import util.Util.logger
+import java.time.Duration
+import java.time.Instant
+import java.util.concurrent.Executors
+import java.util.concurrent.ScheduledExecutorService
 
 object GameManager {
 
@@ -29,7 +35,9 @@ object GameManager {
     }
 
     val gameState = WAITING_FOR_PLAYERS
+    var nextTimerEnd = Instant.now() + Duration.ofHours(1)
 
+    val executor: ScheduledExecutorService = Executors.newSingleThreadScheduledExecutor()
 
 
     // single threaded
@@ -48,16 +56,28 @@ object GameManager {
         }
     }
 
+    fun startGame() {
+        // todo: read from stdin
+    }
+
+    fun setTimer(duration: Duration) {
+        nextTimerEnd = Instant.now() + duration
+
+        TimerInfoMessage(duration.toMillis())
+        broadcast(TimerInfoMessage(duration.toMillis()))
+    }
+
     fun onPlayerInitialConnect(connectingPlayer: Player) {
         verifyTaskThread()
 
-        PlayerManager.broadcast(PlayerListInfoMessage(PlayerManager.players.map { it.username }.toTypedArray()))
+        broadcast(PlayerListInfoMessage(PlayerManager.players.map { it.username }.toTypedArray()))
+        connectingPlayer.send(TimerInfoMessage(Duration.between(Instant.now(), nextTimerEnd).toMillis()))
     }
 
     fun onPlayerDisconnect(player: Player) {
         verifyTaskThread()
 
         // TODO: remove from game, auto select answers
-        PlayerManager.broadcast(PlayerListInfoMessage(PlayerManager.players.map { it.username }.toTypedArray()))
+        broadcast(PlayerListInfoMessage(PlayerManager.players.map { it.username }.toTypedArray()))
     }
 }
